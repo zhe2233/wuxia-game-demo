@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>武侠心诀 · 内倾思维流派测鉴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #1a1308 0%, #0e0b06 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e8d5a3;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            min-height: 600px;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #c9a14b;
+            border-radius: 32px 16px 32px 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(201, 161, 75, 0.1);
+        }
+
+        .main-title {
+            font-family: "STKaiti", "KaiTi", serif;
+            font-size: 42px;
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+        }
+
+        .sub-title {
+            font-size: 18px;
+            color: #a08850;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #c9b896;
+            margin-bottom: 50px;
+            padding: 0 20px;
+            text-align: justify;
+        }
+
+        .start-btn {
+            padding: 18px 60px;
+            font-size: 20px;
+            font-family: "STKaiti", "KaiTi", serif;
+            background: linear-gradient(135deg, #d4af37 0%, #b68b40 100%);
+            color: #1a1308;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            letter-spacing: 3px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, #e5c04a 0%, #c79c4f 100%);
+        }
+
+        .quiz-screen {
+            display: none;
+        }
+
+        .progress-bar {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(201, 161, 75, 0.3);
+        }
+
+        .progress-text {
+            font-size: 20px;
+            color: #d4af37;
+            font-family: "STKaiti", "KaiTi", serif;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(201, 161, 75, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #e5c04a);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #c9a14b;
+            border-radius: 32px 16px 32px 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            font-size: 18px;
+            color: #a08850;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #e8d5a3;
+            margin-bottom: 35px;
+            font-family: "STKaiti", "KaiTi", serif;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 20px;
+            background: rgba(201, 161, 75, 0.08);
+            border: 1px solid rgba(201, 161, 75, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-item:hover {
+            background: rgba(201, 161, 75, 0.15);
+            border-color: rgba(201, 161, 75, 0.5);
+        }
+
+        .option-item.selected {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            border: 2px solid #c9a14b;
+            border-radius: 50%;
+            margin-right: 15px;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-item.selected .option-radio {
+            border-color: #d4af37;
+            background: #d4af37;
+        }
+
+        .option-item.selected .option-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #1a1308;
+            border-radius: 50%;
+        }
+
+        .option-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #c9b896;
+            flex: 1;
+        }
+
+        .option-item.selected .option-text {
+            color: #e8d5a3;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px 30px;
+            font-size: 18px;
+            font-family: "STKaiti", "KaiTi", serif;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+        }
+
+        .prev-btn {
+            background: rgba(201, 161, 75, 0.2);
+            color: #c9a14b;
+            border: 1px solid rgba(201, 161, 75, 0.4);
+        }
+
+        .prev-btn:hover:not(:disabled) {
+            background: rgba(201, 161, 75, 0.3);
+            border-color: #c9a14b;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #b68b40 100%);
+            color: #1a1308;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .next-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, #e5c04a 0%, #c79c4f 100%);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #c9a14b;
+            border-radius: 32px 16px 32px 16px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 80px rgba(201, 161, 75, 0.1);
+        }
+
+        .result-title {
+            font-size: 16px;
+            color: #a08850;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .result-type {
+            font-family: "STKaiti", "KaiTi", serif;
+            font-size: 36px;
+            color: #d4af37;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            line-height: 1.4;
+        }
+
+        .result-desc {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #c9b896;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(201, 161, 75, 0.08);
+            border-radius: 12px;
+            border-left: 3px solid #c9a14b;
+            text-align: left;
+        }
+
+        .result-detail {
+            font-size: 15px;
+            line-height: 2;
+            color: #b8a780;
+            margin-bottom: 40px;
+            text-align: justify;
+            padding: 0 10px;
+        }
+
+        .restart-btn {
+            padding: 16px 50px;
+            font-size: 18px;
+            font-family: "STKaiti", "KaiTi", serif;
+            background: linear-gradient(135deg, #d4af37 0%, #b68b40 100%);
+            color: #1a1308;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            letter-spacing: 2px;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, #e5c04a 0%, #c79c4f 100%);
+        }
+
+        @media (max-width: 600px) {
+            .main-title {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+            .sub-title {
+                font-size: 14px;
+            }
+            .intro-text {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+            .start-btn {
+                padding: 15px 40px;
+                font-size: 18px;
+            }
+            .question-card {
+                padding: 25px 20px;
+            }
+            .question-text {
+                font-size: 18px;
+            }
+            .option-item {
+                padding: 12px 15px;
+            }
+            .option-text {
+                font-size: 14px;
+            }
+            .nav-btn {
+                padding: 14px 20px;
+                font-size: 16px;
+            }
+            .result-type {
+                font-size: 28px;
+            }
+            .result-desc {
+                font-size: 14px;
+            }
+            .result-detail {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="start-screen" id="startScreen">
+            <h1 class="main-title">武侠心诀 · 内倾思维流派测鉴</h1>
+            <p class="sub-title">测测你的 Ti 属于哪一脉</p>
+            <p class="intro-text">
+                江湖路远,心法为尊。世人皆知招式易练,心法难求。今日设此测鉴,不为分高下,只为辨流派。二十道题,二十次抉择,待你一一作答,便可窥见你内倾思维之真容,知晓你若置身武林,当属何门何派。且放下心中杂念,随本座一探武学心诀之奥妙。
+            </p>
+            <button class="start-btn" id="startBtn">开始测试</button>
+        </div>
+
+        <div class="quiz-screen" id="quizScreen">
+            <div class="progress-bar">
+                <div class="progress-text" id="progressText">第 1 / 20 题</div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width: 5%"></div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">第 1 题 / 共 20 题</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options-list" id="optionsList"></div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev-btn" id="prevBtn">上一题</button>
+                <button class="nav-btn next-btn" id="nextBtn">下一题</button>
+            </div>
+        </div>
+
+        <div class="result-screen" id="resultScreen">
+            <div class="result-card">
+                <div class="result-title">— 你的武学心法流派 —</div>
+                <h2 class="result-type" id="resultType"></h2>
+                <div class="result-desc" id="resultDesc"></div>
+                <div class="result-detail" id="resultDetail"></div>
+                <button class="restart-btn" id="restartBtn">重新测试</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var questions = [
+            {
+                text: "初入江湖,你更愿意拜入哪类门派?",
+                options: [
+                    { text: "A. 以严密心法著称的玄门正宗", scores: [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 奇门遁甲、机关算尽的隐世流派", scores: [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 自由随性、不重规矩的逍遥派", scores: [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "D. 实战至上,一切以结果论英雄的硬派", scores: [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0] }
+                ]
+            },
+            {
+                text: "面对一本武学秘籍中明显的逻辑矛盾,你会?",
+                options: [
+                    { text: "A. 尝试自创一套理论,将矛盾统一", scores: [1,0,0,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "B. 查阅多本参考书,对比各家解法", scores: [0,1,0,0,0,1,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 放弃纠结,凭感觉选择一种来练", scores: [0,0,0,0,1,0,0,0,0,0,0,1,0,0,1] },
+                    { text: "D. 认为秘籍没错,是自己的理解不够", scores: [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0] }
+                ]
+            },
+            {
+                text: "与人论武时,对方指出你逻辑上的破绽,你第一反应是?",
+                options: [
+                    { text: "A. 兴奋,立刻深挖并修补自己的体系", scores: [1,0,0,0,0,0,1,0,1,0,0,0,0,0,0] },
+                    { text: "B. 冷静审视,若真有误则重构框架", scores: [0,1,1,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 不以为意,实战能赢就行,逻辑次要", scores: [0,0,0,0,1,0,0,0,0,0,1,0,0,0,0] },
+                    { text: "D. 表面接受,内心继续坚持自己的理解", scores: [0,0,0,0,0,0,0,0,0,1,0,0,0,1,0] }
+                ]
+            },
+            {
+                text: "你如何看待武林中约定俗成的规矩?",
+                options: [
+                    { text: "A. 大多数规矩逻辑混乱,我只遵守自己推导的准则", scores: [1,1,0,1,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 规矩是前人智慧,应尊重并融入自身体系", scores: [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "C. 随机应变,不违本心即可", scores: [0,0,0,0,1,0,0,0,0,0,1,0,0,0,0] },
+                    { text: "D. 人前守规矩,人后我行我素", scores: [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0] }
+                ]
+            },
+            {
+                text: "研习新武功时,你最注重?",
+                options: [
+                    { text: "A. 逐字逐句推敲,建立完整的心法树", scores: [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 理解其哲学内核,然后随心而运", scores: [0,0,1,0,0,0,1,0,0,0,0,0,1,0,0] },
+                    { text: "C. 只学杀招,速成见效,逻辑以后再说", scores: [0,0,0,1,0,0,0,1,0,0,0,0,0,0,0] },
+                    { text: "D. 找来多个版本互相印证,取最大公约数", scores: [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0] }
+                ]
+            },
+            {
+                text: "当你推理出的结论与门派长辈的观点相悖,你会?",
+                options: [
+                    { text: "A. 坚信自己的逻辑,哪怕与全武林为敌", scores: [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0] },
+                    { text: "B. 表面顺从,暗中继续完善自己的体系", scores: [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0] },
+                    { text: "C. 试图用逻辑说服对方,辩论到底", scores: [0,1,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "D. 尊重传统,也许是自己想错了", scores: [0,0,0,0,1,0,0,0,0,0,0,1,0,0,0] }
+                ]
+            },
+            {
+                text: "你更喜欢哪种战斗风格?",
+                options: [
+                    { text: "A. 步步为营,每一招都经过精确计算", scores: [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 以静制动,借力打力,后发先至", scores: [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "C. 出其不意,用怪招打乱对手节奏", scores: [0,0,0,1,0,0,0,1,0,1,0,0,0,0,0] },
+                    { text: "D. 依靠直觉和本能,见招拆招", scores: [0,0,0,0,1,0,0,0,0,0,1,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你如何看待「以彼之道,还施彼身」这一理念?",
+                options: [
+                    { text: "A. 只是模仿,缺乏原创性,不屑为之", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 很有智慧,能快速复制对手逻辑并反制", scores: [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 可以作为辅助,但核心还是自己的体系", scores: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "D. 完全实用,不管黑猫白猫", scores: [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你更擅长哪种思维方式?",
+                options: [
+                    { text: "A. 同时推演多种可能,左右互搏", scores: [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0] },
+                    { text: "B. 深挖一条路径,直到逻辑尽头", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 广泛收集信息,再归纳出模式", scores: [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "D. 随遇而安,不想那么多", scores: [0,0,0,0,0,0,0,0,0,0,0,1,0,0,1] }
+                ]
+            },
+            {
+                text: "面对一个毫无头绪的谜题,你通常会?",
+                options: [
+                    { text: "A. 建立假设,然后逐一验证", scores: [1,0,0,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "B. 查阅前人笔记,寻找现成解法", scores: [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 随意尝试,运气也是实力", scores: [0,0,0,0,0,0,0,0,0,0,0,1,0,0,1] },
+                    { text: "D. 冷静分析结构,拆解成小问题", scores: [0,1,1,0,0,0,0,0,0,0,0,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你如何评价「聪明人往往孤独」这句话?",
+                options: [
+                    { text: "A. 深有同感,因为自己的逻辑体系别人难以理解", scores: [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 不一定,真正的智慧是圆融通达的", scores: [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "C. 孤独与否无所谓,我只求内心自洽", scores: [0,0,0,1,0,0,0,0,1,0,0,0,0,0,0] },
+                    { text: "D. 聪明人更应该善于利用他人", scores: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] }
+                ]
+            },
+            {
+                text: "你更喜欢哪种师父?",
+                options: [
+                    { text: "A. 严格苛刻,逼你建立严谨逻辑的宗师", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 博学多才,能旁征博引的学者", scores: [0,1,0,0,0,1,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 随和宽容,让你自己领悟的禅师", scores: [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "D. 实战经验丰富,直接教你怎么赢的豪侠", scores: [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你如何看待「天下武功唯快不破」?",
+                options: [
+                    { text: "A. 快只是表象,内在逻辑的精准才是根本", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 快与慢相生相克,要看时机", scores: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 走极端也是一种风格,我追求极致的快", scores: [0,0,0,1,0,0,0,1,0,0,0,0,0,0,0] },
+                    { text: "D. 管他快慢,能赢就行", scores: [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你发现一个广为流传的武学理论存在根本性错误,你会?",
+                options: [
+                    { text: "A. 公开指出,并发表自己的正确理论", scores: [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0] },
+                    { text: "B. 私下与好友讨论,但不公开得罪人", scores: [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0] },
+                    { text: "C. 无所谓,自己知道就行", scores: [0,0,1,0,0,0,0,0,0,0,0,1,0,0,0] },
+                    { text: "D. 利用这个错误去设计陷阱", scores: [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你更享受哪种状态?",
+                options: [
+                    { text: "A. 独自一人推演心法,忘我沉醉", scores: [1,1,0,0,0,0,0,0,1,0,0,0,0,0,0] },
+                    { text: "B. 与同道切磋辩论,碰撞出火花", scores: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 游历江湖,随缘行侠", scores: [0,0,0,0,1,0,0,0,0,0,0,1,0,0,0] },
+                    { text: "D. 不问世事,吃喝玩乐", scores: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] }
+                ]
+            },
+            {
+                text: "你认为「直觉」和「逻辑」哪个更重要?",
+                options: [
+                    { text: "A. 逻辑是根基,直觉不可靠", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 两者互补,缺一不可", scores: [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "C. 高手靠直觉,逻辑是初学者用的", scores: [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "D. 视情况而定,没有固定偏好", scores: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] }
+                ]
+            },
+            {
+                text: "你如何看待「心法」与「招式」的关系?",
+                options: [
+                    { text: "A. 心法决定一切,招式只是表象", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 心法与招式应完美融合", scores: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "C. 招式够强,心法可以慢慢补", scores: [0,0,0,0,0,0,0,1,0,0,1,0,0,0,0] },
+                    { text: "D. 没有固定关系,随性而为", scores: [0,0,0,0,1,0,0,0,0,0,0,1,0,0,0] }
+                ]
+            },
+            {
+                text: "你更愿意成为哪种武林人物?",
+                options: [
+                    { text: "A. 开宗立派的一代宗师", scores: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 隐世高人,不问江湖", scores: [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "C. 独行侠客,快意恩仇", scores: [0,0,0,1,0,0,0,0,0,0,0,0,1,0,0] },
+                    { text: "D. 左右逢源的江湖老油条", scores: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] }
+                ]
+            },
+            {
+                text: "你如何学习一门新的武功?",
+                options: [
+                    { text: "A. 先通读总纲,再逐层练习", scores: [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+                    { text: "B. 找人切磋,在实践中摸索", scores: [0,0,0,0,1,0,0,0,0,0,1,0,0,0,0] },
+                    { text: "C. 同时学习多门,触类旁通", scores: [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0] },
+                    { text: "D. 看一遍就试着用,不行再调整", scores: [0,0,0,0,0,0,0,1,0,0,0,1,0,0,0] }
+                ]
+            },
+            {
+                text: "你最终追求的是?",
+                options: [
+                    { text: "A. 逻辑与武功的终极自洽,大道至简", scores: [1,0,0,0,0,0,1,0,0,0,0,0,0,0,0] },
+                    { text: "B. 随心所欲,不拘泥任何形式", scores: [0,0,0,0,1,0,0,0,0,0,0,1,0,0,0] },
+                    { text: "C. 成为武林至尊,名扬天下", scores: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] },
+                    { text: "D. 平安喜乐,与世无争", scores: [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0] }
+                ]
+            }
+        ];
+
+        var wuxiaTypes = [
+            {
+                name: "独孤求败式 · 极境归真",
+                desc: "Ti 登峰造极,逻辑自洽圆满,不假外物,追求内在绝对一致。你如同剑魔独孤求败,一生求败而不得。",
+                detail: "你如同剑魔独孤求败,一生求败而不得。你的思维已臻化境,万事万物在你眼中皆可归入自建的逻辑框架。你不依赖权威,不盲从经验,只相信内心推导出的铁律。外人看你或许孤傲,但你深知:真正的真理无需外求,它就在环环相扣的推理链尽头。"
+            },
+            {
+                name: "黄药师式 · 奇门璇玑",
+                desc: "构建精密繁杂的私人理论体系,奇门五行皆为我用,常人难窥其奥。你如东邪黄药师,精通奇门遁甲、术数医药。",
+                detail: "你如东邪黄药师,精通奇门遁甲、术数医药,样样自成一家。你的思维是一座精密的迷宫,外人难以进入,但你乐在其中。你享受将看似无关的知识整合进自己的体系,哪怕显得离经叛道,只要内部严丝合缝,你便心满意足。"
+            },
+            {
+                name: "张三丰式 · 太极混元",
+                desc: "逻辑圆融流转,刚柔并济,既重内在框架又能包容外在变化。你如张三丰真人,自创太极,以柔克刚。",
+                detail: "你如张三丰真人,自创太极,以柔克刚。你的思维既讲求内在逻辑的严谨,又懂得根据外界环境灵活调整。你不固执己见,也不随波逐流,而是像太极图一样,阴阳互济,圆融无碍。这是成熟而健康的 Ti 使用方式。"
+            },
+            {
+                name: "欧阳锋式 · 逆脉狂想",
+                desc: "逻辑偏执怪诞却内部惊悚自洽,逆练心法自成一家,令人胆寒。你如西毒欧阳锋,逆练九阴真经仍能成为绝顶高手。",
+                detail: "你如西毒欧阳锋,逆练九阴真经仍能成为绝顶高手。你的逻辑可能违背常理,甚至显得疯狂,但在你构建的怪异框架内,每一步推理都环环相扣。你享受颠覆常规的快感,哪怕被世人视为邪道,你依然相信自己的「真理」。"
+            },
+            {
+                name: "令狐冲式 · 逍遥无羁",
+                desc: "不喜逻辑束缚,随性而行,靠直觉与剑意破局,洒脱不羁。你如令狐冲,生性洒脱,不爱受任何教条约束。",
+                detail: "你如令狐冲,生性洒脱,不爱受任何教条约束。你的 Ti 使用倾向很低,你不愿意花时间构建复杂的逻辑框架,更相信直觉和临场发挥。但这不代表你愚钝,你的剑意源自本心,往往能歪打正着,别有一番天地。"
+            },
+            {
+                name: "慕容复式 · 博采万流",
+                desc: "擅复制他人逻辑框架,以彼之道还施彼身,但缺乏统一内核。你如慕容复,博闻强记,能快速复制并运用他人的逻辑体系。",
+                detail: "你如慕容复,博闻强记,能快速复制并运用他人的逻辑体系。你擅长借鉴、模仿、反驳,但却没有属于自己的核心框架。你可以在辩论中引用各家观点,但若追问你本人究竟相信什么,你可能会陷入迷茫。"
+            },
+            {
+                name: "扫地僧式 · 无漏真如",
+                desc: "逻辑已臻化境却返璞归真,一言一行皆合乎至理,无懈可击。你如藏经阁的扫地僧,看似平凡,实则深不可测。",
+                detail: "你如藏经阁的扫地僧,看似平凡,实则深不可测。你的 Ti 已经内化为本能,不需要刻意推理,言行举止自然合乎最严密的逻辑。你既能看透他人的破绽,又能慈悲包容,是思维与心性双修圆满的境界。"
+            },
+            {
+                name: "林平之式 · 孤注险锋",
+                desc: "思维凌厉极端,为达自洽不惜抛弃常理,速成但后患暗藏。你如林平之,为了复仇和自洽,不惜挥刀自宫修炼辟邪剑法。",
+                detail: "你如林平之,为了复仇和自洽,不惜挥刀自宫修炼辟邪剑法。你的逻辑极端而危险,追求速成和锋利,但往往忽略了长远代价。你可能会在短时间内构建出令人惊艳的推理,但基础不稳,容易反噬自身。"
+            },
+            {
+                name: "周伯通式 · 双念嬉游",
+                desc: "能同时运转多套矛盾逻辑,左右互搏,以思维游戏为乐。你如老顽童周伯通,可以左手画方右手画圆,同时运转两套矛盾的逻辑体系。",
+                detail: "你如老顽童周伯通,可以左手画方右手画圆,同时运转两套矛盾的逻辑体系。你不急于统一它们,反而享受这种思维上的游戏。你的 Ti 极高,但带着玩世不恭的态度,在旁人看来难以理解,你却自得其乐。"
+            },
+            {
+                name: "岳不群式 · 表里钧辩",
+                desc: "维护两套逻辑体系,外表君子内藏诡道,精密却虚伪。你如岳不群,对外维持一套光明正大的君子逻辑,内心却运行另一套自私阴险的算计。",
+                detail: "你如岳不群,对外维持一套光明正大的君子逻辑,内心却运行另一套自私阴险的算计。你的思维精密而隐蔽,能完美自圆其说,但终究是自欺欺人。这种 Ti 使用方式会让你活在分裂之中,最终被自己的逻辑困住。"
+            },
+            {
+                name: "萧峰式 · 降龙实理",
+                desc: "逻辑简单直接,以实战效用为尊,干净利落,不尚空谈。你如萧峰,不玩虚招,每一掌都直奔要害。",
+                detail: "你如萧峰,不玩虚招,每一掌都直奔要害。你的 Ti 以实用为导向,不追求复杂的理论体系,只问「有没有用」「能不能解决问题」。你的推理干净利落,没有冗余,在关键时刻总能做出最有效的判断。"
+            },
+            {
+                name: "虚竹式 · 缘法天成",
+                desc: "缺乏主动构建框架的倾向,随缘而安,逻辑依赖外部指引。你如虚竹,原本只是普通少林僧,因缘际会获得绝顶武功。",
+                detail: "你如虚竹,原本只是普通少林僧,因缘际会获得绝顶武功。你的 Ti 使用较弱,不擅长主动分析逻辑矛盾,更多依赖他人教导或命运安排。但你的优势在于不固执,能够接受外界输入,有时反而能因此破局。"
+            },
+            {
+                name: "杨过式 · 断臂创见",
+                desc: "叛逆传统,在残缺中建立独特心法,逻辑偏锋却极具杀伤力。你如杨过,断臂后自创黯然销魂掌。",
+                detail: "你如杨过,断臂后自创黯然销魂掌。你的 Ti 不走寻常路,你否定传统权威,在看似残缺或不利的条件下,反而能迸发出独特的逻辑框架。你的思维偏锋、犀利,往往能出奇制胜,但需要足够的情感驱动。"
+            },
+            {
+                name: "金毛狮王式 · 狂雷心则",
+                desc: "内心有固执信条,但逻辑常被情绪裹挟,狂放中藏偏执理性。你如谢逊,表面狂怒暴躁,内心却有一套绝对的是非准则。",
+                detail: "你如谢逊,表面狂怒暴躁,内心却有一套绝对的是非准则。你的 Ti 容易被情绪干扰,但在冷静下来时,又能展现出惊人的逻辑偏执。你的思维像暴风雨中的灯塔,忽明忽暗,但始终有一个方向。"
+            },
+            {
+                name: "韦小宝式 · 混元滑黠",
+                desc: "几乎不用逻辑,见风使舵,信奉「没逻辑就是最强的逻辑」。你如韦小宝,从不按逻辑出牌,全凭利益、口才和运气。",
+                detail: "你如韦小宝,从不按逻辑出牌,全凭利益、口才和运气。你不在脑中建立任何自洽的体系,因为你认为逻辑是束缚。你的生存哲学是「见人说人话,见鬼说鬼话」,在混乱中游刃有余。这是 Ti 极低但适应性极强的风格。"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var userAnswers = new Array(20).fill(null);
+            var currentIndex = 0;
+
+            var startScreen = document.getElementById('startScreen');
+            var quizScreen = document.getElementById('quizScreen');
+            var resultScreen = document.getElementById('resultScreen');
+            var progressText = document.getElementById('progressText');
+            var progressFill = document.getElementById('progressFill');
+            var questionNumber = document.getElementById('questionNumber');
+            var questionText = document.getElementById('questionText');
+            var optionsList = document.getElementById('optionsList');
+            var prevBtn = document.getElementById('prevBtn');
+            var nextBtn = document.getElementById('nextBtn');
+            var startBtn = document.getElementById('startBtn');
+            var restartBtn = document.getElementById('restartBtn');
+
+            startBtn.addEventListener('click', function() {
+                startScreen.style.display = 'none';
+                quizScreen.style.display = 'block';
+                resultScreen.style.display = 'none';
+                renderQuestion();
+            });
+
+            function renderQuestion() {
+                var question = questions[currentIndex];
+                
+                progressText.textContent = '第 ' + (currentIndex + 1) + ' / 20 题';
+                progressFill.style.width = ((currentIndex + 1) / 20 * 100) + '%';
+                questionNumber.textContent = '第 ' + (currentIndex + 1) + ' 题 / 共 20 题';
+                questionText.textContent = question.text;
+                
+                optionsList.innerHTML = '';
+                for (var i = 0; i < question.options.length; i++) {
+                    var option = question.options[i];
+                    var optionItem = document.createElement('div');
+                    optionItem.className = 'option-item';
+                    optionItem.setAttribute('data-index', i);
+                    
+                    if (userAnswers[currentIndex] === i) {
+                        optionItem.classList.add('selected');
+                    }
+                    
+                    optionItem.innerHTML = '<div class="option-radio"></div><div class="option-text">' + option.text + '</div>';
+                    optionsList.appendChild(optionItem);
+                }
+                
+                updateButtons();
+            }
+
+            optionsList.addEventListener('click', function(e) {
+                var optionItem = e.target.closest('.option-item');
+                if (!optionItem) return;
+                
+                var optionIndex = parseInt(optionItem.getAttribute('data-index'));
+                userAnswers[currentIndex] = optionIndex;
+                
+                var options = optionsList.querySelectorAll('.option-item');
+                for (var i = 0; i < options.length; i++) {
+                    if (i === optionIndex) {
+                        options[i].classList.add('selected');
+                    } else {
+                        options[i].classList.remove('selected');
+                    }
+                }
+                
+                updateButtons();
+            });
+
+            function updateButtons() {
+                if (currentIndex === 0) {
+                    prevBtn.disabled = true;
+                    prevBtn.style.visibility = 'hidden';
+                } else {
+                    prevBtn.disabled = false;
+                    prevBtn.style.visibility = 'visible';
+                }
+                
+                var hasAnswer = userAnswers[currentIndex] !== null;
+                nextBtn.disabled = !hasAnswer;
+                
+                if (currentIndex === 19) {
+                    nextBtn.textContent = '完成答题,一探武脉';
+                } else {
+                    nextBtn.textContent = '下一题';
+                }
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    renderQuestion();
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (userAnswers[currentIndex] === null) {
+                    alert('请先选择答案');
+                    return;
+                }
+                
+                if (currentIndex < 19) {
+                    currentIndex++;
+                    renderQuestion();
+                } else {
+                    showResult();
+                }
+            });
+
+            function showResult() {
+                var typeScores = new Array(15).fill(0);
+                
+                for (var i = 0; i < userAnswers.length; i++) {
+                    var answerIndex = userAnswers[i];
+                    if (answerIndex !== null) {
+                        var scores = questions[i].options[answerIndex].scores;
+                        for (var j = 0; j < scores.length; j++) {
+                            typeScores[j] += scores[j];
+                        }
+                    }
+                }
+                
+                var maxScore = Math.max.apply(null, typeScores);
+                var maxIndices = [];
+                for (var i = 0; i < typeScores.length; i++) {
+                    if (typeScores[i] === maxScore) {
+                        maxIndices.push(i);
+                    }
+                }
+                
+                var resultIndex = maxIndices[Math.floor(Math.random() * maxIndices.length)];
+                var result = wuxiaTypes[resultIndex];
+                
+                document.getElementById('resultType').textContent = result.name;
+                document.getElementById('resultDesc').textContent = result.desc;
+                document.getElementById('resultDetail').textContent = result.detail;
+                
+                quizScreen.style.display = 'none';
+                resultScreen.style.display = 'block';
+            }
+
+            restartBtn.addEventListener('click', function() {
+                userAnswers = new Array(20).fill(null);
+                currentIndex = 0;
+                
+                resultScreen.style.display = 'none';
+                startScreen.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
